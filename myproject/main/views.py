@@ -1,3 +1,6 @@
 from django.shortcuts import render
+from .models import Game
 
-# Create your views here.
+def index(request):
+    all_notes = Game.objects.all()
+    return render(request, 'game.html', {'games': all_notes})
