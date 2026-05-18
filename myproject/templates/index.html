@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Página Inicial</title>
+</head>
+<body>
+  <h1>Bem-vindo à página principal</h1>
+  <p>Lista de jogos:</p>
+  <ul>
+    {% for game in games %}
+      <li>{{ game.title }} - {{ game.platform }}</li>
+    {% empty %}
+      <li>Nenhum jogo cadastrado.</li>
+    {% endfor %}
+  </ul>
+  <p><a href="/game/">Ver detalhes dos jogos</a></p>
+</body>
+</html>
