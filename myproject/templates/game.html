@@ -6,4 +6,6 @@
     <p>Gênero: {{ game.genre }}</p>
     <p>Plataforma: {{ game.platform }}</p>
   </div>
+{% empty %}
+  <li>Nenhuma anotação por enquanto.</li>
 {% endfor %}

@@ -7,4 +7,7 @@ def index(request):
     for game in all_games:
         print(game.title)
     return HttpResponse("Olá mundo! Este é o app notes de DevLife do Insper.")
-    #return render(request, 'game.html', {'games': all_notes})
+
+def game_page(request):
+    games = Game.objects.all()
+    return render(request, 'game.html', {'games': games})

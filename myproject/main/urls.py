@@ -1,7 +1,6 @@
-from django.urls import path
+from django.shortcuts import render
+from .models import Game
 
-from . import views
-
-urlpatterns = [
-    path('', views.index, name='index'),
-]
+def game_page(request):
+    games = Game.objects.all()
+    return render(request, 'game.html', {'games': games})
