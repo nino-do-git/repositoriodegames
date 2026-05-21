@@ -5,6 +5,26 @@
     <h2>{{ game.title }}</h2>
     <p>Gênero: {{ game.genre }}</p>
     <p>Plataforma: {{ game.platform }}</p>
+
+    {% if game.thumbnail %}
+      <div>
+        <p>Thumbnail:</p>
+        <img src="{{ game.thumbnail.url }}" alt="Thumbnail de {{ game.title }}" style="max-width: 250px; height: auto;" />
+      </div>
+    {% endif %}
+
+    {% if game.screenshots %}
+      <div>
+        <p>Screenshots:</p>
+        <img src="{{ game.screenshots.url }}" alt="Screenshot de {{ game.title }}" style="max-width: 500px; height: auto;" />
+      </div>
+    {% endif %}
+
+    {% if game.download_file %}
+      <div>
+        <p><a href="{{ game.download_file.url }}" download>Baixar arquivo do jogo</a></p>
+      </div>
+    {% endif %}
   </div>
 {% empty %}
   <li>Nenhuma anotação por enquanto.</li>

@@ -112,8 +112,5 @@ dmypy.json
 .vscode/
 .idea/
 
-#media
-
-media/imagens/*
-media/downloads/*
-media/thumbnails/*
+# media
+media/

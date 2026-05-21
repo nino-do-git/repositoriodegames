@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Adicionar Jogo</title>
+</head>
+<body>
+  <h1>POST GAMES</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar jogo</button>
+  </form>
+  <p><a href="/">Voltar para a página inicial</a></p>
+</body>
+</html>
