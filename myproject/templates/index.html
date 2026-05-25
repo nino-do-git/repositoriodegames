@@ -4,18 +4,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Página Inicial</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'main/css/index.css' %}">
 </head>
 <body>
-  <h1>Bem-vindo à página principal</h1>
-  <p>Lista de jogos:</p>
-  <ul>
-    {% for game in games %}
-      <li>{{ game.title }} - {{ game.platform }}</li>
-    {% empty %}
-      <li>Nenhum jogo cadastrado.</li>
-    {% endfor %}
-  </ul>
-  <p><a href="/game/">Ver detalhes dos jogos</a></p>
-  <p><a href="/game/add/">POST GAMES</a></p>
+  <div class="container">
+    <h1>Bem-vindo à página principal</h1>
+    <p>Lista de jogos:</p>
+    <ul>
+      {% for game in games %}
+        <li>{{ game.title }} - {{ game.platform }}</li>
+      {% empty %}
+        <li>Nenhum jogo cadastrado.</li>
+      {% endfor %}
+    </ul>
+    <div class="actions">
+      <a href="/game/">Ver detalhes dos jogos</a>
+      <a href="/game/add/">POST GAMES</a>
+    </div>
+  </div>
 </body>
 </html>

@@ -1,31 +1,61 @@
-<h1>Game</h1>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detalhes do jogo</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'main/css/game.css' %}">
+</head>
+<body>
+  <div class="container">
+    <h1>Game</h1>
 
-{% for game in games %}
-  <div>
-    <h2>{{ game.title }}</h2>
-    <p>Gênero: {{ game.genre }}</p>
-    <p>Plataforma: {{ game.platform }}</p>
+    {% for game in games %}
+      <section class="game-section">
+        <h2>{{ game.title }}</h2>
+        <p>Gênero: {{ game.genre }}</p>
+        <p>Plataforma: {{ game.platform }}</p>
 
-    {% if game.thumbnail %}
-      <div>
-        <p>Thumbnail:</p>
-        <img src="{{ game.thumbnail.url }}" alt="Thumbnail de {{ game.title }}" style="max-width: 250px; height: auto;" />
-      </div>
-    {% endif %}
+        {% if game.thumbnail %}
+          <div class="game-images">
+            <div>
+              <p>Thumbnail:</p>
+              <img src="{{ game.thumbnail.url }}" alt="Thumbnail de {{ game.title }}" />
+            </div>
+          </div>
+        {% endif %}
 
-    {% if game.screenshots %}
-      <div>
-        <p>Screenshots:</p>
-        <img src="{{ game.screenshots.url }}" alt="Screenshot de {{ game.title }}" style="max-width: 500px; height: auto;" />
-      </div>
-    {% endif %}
+        {% if game.screenshots %}
+          <div class="game-images">
+            <div>
+              <p>Screenshots:</p>
+              <img src="{{ game.screenshots.url }}" alt="Screenshot de {{ game.title }}" />
+            </div>
+          </div>
+        {% endif %}
 
-    {% if game.download_file %}
-      <div>
-        <p><a href="{{ game.download_file.url }}" download>Baixar arquivo do jogo</a></p>
-      </div>
-    {% endif %}
+        {% if game.download_file %}
+          <div>
+            <p><a href="{{ game.download_file.url }}" download>Baixar arquivo do jogo</a></p>
+          </div>
+        {% endif %}
+      </section>
+    {% empty %}
+      <p>Nenhuma anotação por enquanto.</p>
+    {% endfor %}
+
+    <p class="footer-link"><a href="/">Voltar para a página inicial</a></p>
   </div>
-{% empty %}
-  <li>Nenhuma anotação por enquanto.</li>
-{% endfor %}
+
+  <!-- Modal de Imagem -->
+  <div id="imageModal" class="image-modal">
+    <div class="image-modal-content">
+      <button class="image-modal-close">&times;</button>
+      <img id="modalImage" src="" alt="Imagem ampliada" />
+    </div>
+  </div>
+
+  <script src="{% static 'main/js/game-modal.js' %}"></script>
+</body>
+</html>
