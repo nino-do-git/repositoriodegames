@@ -8,20 +8,73 @@
   <link rel="stylesheet" href="{% static 'main/css/index.css' %}">
 </head>
 <body>
-  <div class="container">
-    <h1>Bem-vindo à página principal</h1>
-    <p>Lista de jogos:</p>
-    <ul>
-      {% for game in games %}
-        <li>{{ game.title }} - {{ game.platform }}</li>
-      {% empty %}
-        <li>Nenhum jogo cadastrado.</li>
-      {% endfor %}
-    </ul>
-    <div class="actions">
-      <a href="/game/">Ver detalhes dos jogos</a>
-      <a href="/game/add/">POST GAMES</a>
-    </div>
-  </div>
+  <div class="bg-effects"></div>
+
+  <header class="main-title">
+    <h1>Game Repository</h1>
+  </header>
+
+  <main class="home">
+    <section class="featured">
+      <div class="featured-header">
+        <h2>Destaque</h2>
+        <p>Seu espaço central para jogos e projetos criativos.</p>
+      </div>
+
+      <div class="featured-card intro-card">
+        <div class="featured-content">
+          <span class="featured-tag">WELCOME</span>
+          <h3>Explore, compartilhe e descubra novos jogos</h3>
+          <p class="featured-platform">
+            Publique seus projetos, organize seu repositório e navegue pela nossa biblioteca
+            com uma experiência visual mais gamer e moderna.
+          </p>
+
+          <div class="featured-actions">
+            <a href="/game/add/" class="btn btn-primary">Adicionar jogo</a>
+            <a href="/game/" class="btn btn-secondary">Conhecer nossa biblioteca</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="games-section">
+      <div class="section-header">
+        <h2>Biblioteca</h2>
+        <p>Lista rápida dos jogos cadastrados.</p>
+      </div>
+
+      <div class="games-grid">
+        {% for game in games %}
+          <article class="game-card">
+            {% if game.thumbnail %}
+              <div class="game-thumb">
+                <img src="{{ game.thumbnail.url }}" alt="{{ game.title }}">
+              </div>
+            {% else %}
+              <div class="game-thumb-placeholder">NO IMAGE</div>
+            {% endif %}
+
+            <div class="game-card-body">
+              <div class="game-card-top">
+                <span class="game-status">ONLINE</span>
+              </div>
+              <h3>{{ game.title }}</h3>
+              <p class="game-meta">{{ game.platform }}</p>
+              <div class="card-links">
+                <a href="/game/">Abrir</a>
+              </div>
+            </div>
+          </article>
+        {% empty %}
+          <div class="empty-state">
+            <h3>Nenhum jogo cadastrado</h3>
+            <p>Seu hub ainda está vazio.</p>
+            <a href="/game/add/" class="btn btn-primary">Adicionar jogo</a>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
 </body>
 </html>
