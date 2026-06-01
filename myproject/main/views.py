@@ -1,10 +1,10 @@
 from datetime import datetime
-
 from django.shortcuts import render, redirect
 from django.utils.text import slugify
-
 from .forms import GameForm
 from .models import Game
+import os
+import uuid
 
 def index(request):
     games = Game.objects.all()

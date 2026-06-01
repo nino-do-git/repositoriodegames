@@ -1,6 +1,6 @@
 from django.db import models
 from datetime import datetime
-
+from main.utils import name_changer_downloads, name_changer_imagens, name_changer_thumbnails
 
 class Game(models.Model):
 
@@ -13,9 +13,15 @@ class Game(models.Model):
     platform = models.CharField(max_length=200)
     python_version = models.CharField(max_length=200)
     pygame_version = models.CharField(max_length=200)
-    thumbnail = models.ImageField(upload_to='thumbnails/', blank=True, null=True)
-    screenshots = models.ImageField(upload_to='imagens/', blank=True, null=True)
-    download_file = models.FileField(upload_to='downloads/', blank=True, null=True)
+    
+    thumbnail = models.ImageField(upload_to=name_changer_thumbnails, blank=True, null=True)
+    screenshots = models.ImageField(upload_to=name_changer_imagens, blank=True, null=True)
+    download_file = models.FileField(
+    upload_to=name_changer_downloads,
+    blank=True,
+    null=True
+    )
+    
     download_url = models.URLField(max_length=200)
     source_code_url = models.URLField(max_length=200)
     instructions = models.TextField(max_length=200)
