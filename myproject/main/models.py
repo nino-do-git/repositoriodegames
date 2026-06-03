@@ -1,6 +1,16 @@
 from django.db import models
 from datetime import datetime
-from main.utils import name_changer_downloads, name_changer_imagens, name_changer_thumbnails
+from .utils import (
+    categorias,
+    name_changer_downloads,
+    name_changer_imagens,
+    name_changer_thumbnails,
+)
+
+GENRE_CHOICES = [
+    (genre, genre.replace('_', ' ').title())
+    for genre in categorias
+]
 
 class Game(models.Model):
 
@@ -9,7 +19,7 @@ class Game(models.Model):
     short_description = models.CharField(max_length=200)
     description = models.TextField(max_length=200)
     developer = models.CharField(max_length=200)
-    genre = models.CharField(max_length=200)
+    genre = models.CharField(max_length=200, choices=GENRE_CHOICES)
     platform = models.CharField(max_length=200)
     python_version = models.CharField(max_length=200)
     pygame_version = models.CharField(max_length=200)
