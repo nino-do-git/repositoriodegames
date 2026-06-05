@@ -61,3 +61,46 @@ def search_games(pesquisa_input, nomes_jogos):
             valida_lis.append(i)
             
     return valida_lis
+
+
+def ensure_sample_games():
+    """Cria alguns jogos de exemplo caso o banco esteja vazio."""
+    from datetime import datetime
+    from django.utils.text import slugify
+    from .models import Game
+    
+    if Game.objects.count() == 0:
+        now = datetime.now()
+        samples = [
+            {'title': 'Space Invaders', 'genre': 'arcade', 'platform': 'PC'},
+            {'title': 'Super Platformer', 'genre': 'plataforma', 'platform': 'PC'},
+            {'title': 'Racing Fury', 'genre': 'corrida', 'platform': 'PC'},
+        ]
+        for s in samples:
+            Game.objects.create(
+                title=s['title'],
+                slug=slugify(s['title']),
+                short_description=s['title'],
+                description=s['title'],
+                developer='Unknown',
+                genre=s['genre'],
+                platform=s['platform'],
+                python_version='3.10',
+                pygame_version='2.1',
+                download_url='',
+                source_code_url='',
+                instructions='',
+                featured='no',
+                download_count='0',
+                created_at=now,
+                updated_at=now,
+            )
+
+
+def get_game_titles(category=None):
+    from .models import Game
+    
+    qs = Game.objects.all()
+    if category:
+        qs = qs.filter(genre__iexact=category)
+    return list(qs.values_list('title', flat=True))
