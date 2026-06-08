@@ -50,19 +50,6 @@ categorias = [
     'space_shooter'
 ]
 
-def search_games(pesquisa_input, nomes_jogos):
-    valida_lis = []
-    for i in nomes_jogos:
-        if pesquisa_input.lower() in i.lower():
-            valida_lis.append(i)
-            
-    for i in nomes_jogos:
-        if SequenceMatcher(None, pesquisa_input.lower(), i.lower()).ratio() > 0.5 and i not in valida_lis:
-            valida_lis.append(i)
-            
-    return valida_lis
-
-
 def ensure_sample_games():
     """Cria alguns jogos de exemplo caso o banco esteja vazio."""
     from datetime import datetime

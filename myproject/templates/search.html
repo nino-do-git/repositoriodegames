@@ -21,7 +21,8 @@
         <a href="/game/add/">Adicionar jogo</a>
       </nav>
 
-      <form action="/search/" method="get" style="display:flex; align-items:center; gap:8px; margin-left:12px;">
+      <form action="/game/" method="post" style="display:flex; align-items:center; gap:8px; margin-left:12px;">
+        {% csrf_token %}
         <input type="text" name="q" placeholder="Buscar jogos..." value="{{ query }}" aria-label="Buscar jogos" style="padding:8px 10px; border-radius:6px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.03); color:#fff;">
         <button type="submit" style="padding:8px 12px; border-radius:6px; border:none; background:#6ad1ff; color:#002; cursor:pointer;">Buscar</button>
       </form>
@@ -35,7 +36,8 @@
       <h2>Buscar Jogos</h2>
       <p>Encontre jogos por nome ou por categoria (gênero).</p>
 
-      <form action="/search/" method="get" style="display:flex; gap:12px; margin:18px 0;">
+      <form action="/search/" method="post" style="display:flex; gap:12px; margin:18px 0;">
+      {% csrf_token %}
         <input type="text" name="q" placeholder="Nome do jogo" value="{{ query }}" style="flex:1; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.03); color:#fff;">
         <select name="category" style="padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.03); color:#fff;">
           <option value="">Todas as categorias</option>
