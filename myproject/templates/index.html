@@ -14,13 +14,11 @@
   <header class="site-header">
     <div class="header-container">
       <a href="/" class="logo">Game Repository</a>
-
       <nav class="nav-menu">
         <a href="/">Início</a>
         <a href="/game/">Biblioteca</a>
         <a href="/game/add/">Adicionar jogo</a>
       </nav>
-
       <form action="/game/" method="post" style="display:flex; align-items:center; gap:8px; margin-left:12px;">
         {% csrf_token %}
         <input type="text" name="q" placeholder="Buscar jogos..." value="{{ query }}" aria-label="Buscar jogos" style="padding:8px 10px; border-radius:6px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.03); color:#fff;">
@@ -30,28 +28,57 @@
   </header>
 
   <main class="home">
-    <section class="featured">
-      <div class="featured-header">
-        <h2>Destaque</h2>
-        <p>Seu espaço central para jogos e projetos criativos.</p>
+
+    <section class="welcome-banner">
+      <div class="welcome-left">
+        <span class="featured-tag">WELCOME</span>
+        <h1>Game Repository</h1>
+        <p>Publique seus projetos, explore a biblioteca e descubra jogos feitos pela comunidade.</p>
       </div>
-
-      <div class="featured-card intro-card">
-        <div class="featured-content">
-          <span class="featured-tag">WELCOME</span>
-          <h3>Explore, compartilhe e descubra novos jogos</h3>
-          <p class="featured-platform">
-            Publique seus projetos, organize seu repositório e navegue pela nossa biblioteca
-            com uma experiência visual mais gamer e moderna.
-          </p>
-
-          <div class="featured-actions">
-            <a href="/game/add/" class="btn btn-primary">Adicionar jogo</a>
-            <a href="/game/" class="btn btn-secondary">Conhecer nossa biblioteca</a>
-          </div>
-        </div>
+      <div class="welcome-right">
+        <a href="/game/add/" class="btn btn-primary">+ Adicionar jogo</a>
+        <a href="/game/" class="btn btn-secondary">Ver biblioteca</a>
       </div>
     </section>
+
+    <section class="featured">
+      <div class="featured-header">
+        <h2>⭐ Em Destaque</h2>
+        <p>Jogos marcados como destaque pela comunidade.</p>
+      </div>
+
+      <div class="games-grid">
+        {% for game in featured_games %}
+          <article class="game-card featured-game-card">
+            {% if game.thumbnail %}
+              <div class="game-thumb">
+                <img src="{{ game.thumbnail.url }}" alt="{{ game.title }}">
+              </div>
+            {% else %}
+              <div class="game-thumb-placeholder">NO IMAGE</div>
+            {% endif %}
+            <div class="game-card-body">
+              <div class="game-card-top">
+                <span class="featured-badge">★ DESTAQUE</span>
+                <span class="game-status">ONLINE</span>
+              </div>
+              <h3>{{ game.title }}</h3>
+              <p class="game-short-desc">{{ game.short_description }}</p>
+              <p class="game-meta">{{ game.platform }} · {{ game.genre }}</p>
+              <div class="card-links">
+                <a href="/game/">Ver na biblioteca</a>
+              </div>
+            </div>
+          </article>
+        {% empty %}
+          <div class="empty-featured">
+            <p>Nenhum jogo em destaque ainda. Ao adicionar um jogo, marque <strong>"sim"</strong> no campo destaque para aparecer aqui.</p>
+            <a href="/game/add/" class="btn btn-primary">Adicionar jogo</a>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+
   </main>
 </body>
 </html>

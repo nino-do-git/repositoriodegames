@@ -5,18 +5,246 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Adicionar Jogo</title>
   {% load static %}
+  <link rel="stylesheet" href="{% static 'main/css/index.css' %}">
   <link rel="stylesheet" href="{% static 'main/css/create_game.css' %}">
   <link rel="icon" href="{% static 'main/icons/favicon.svg' %}" type="image/svg+xml">
 </head>
 <body>
-  <div class="page-wrapper">
-    <h1>POST GAMES</h1>
-    <form method="post" enctype="multipart/form-data">
+  <div class="bg-effects"></div>
+
+  <header class="site-header">
+    <div class="header-container">
+      <a href="/" class="logo">Game Repository</a>
+      <nav class="nav-menu">
+        <a href="/">Início</a>
+        <a href="/game/">Biblioteca</a>
+        <a href="/game/add/">Adicionar jogo</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="home">
+    <form method="post" enctype="multipart/form-data" id="gameForm">
       {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Enviar jogo</button>
+
+      <div class="steps-bar">
+        <div class="step active" data-step="1">
+          <span class="step-number">1</span>
+          <span class="step-label">Informações Básicas</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step" data-step="2">
+          <span class="step-number">2</span>
+          <span class="step-label">Detalhes Técnicos</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step" data-step="3">
+          <span class="step-number">3</span>
+          <span class="step-label">Mídia</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step" data-step="4">
+          <span class="step-number">4</span>
+          <span class="step-label">Links & Download</span>
+        </div>
+      </div>
+
+      <div class="form-page active" id="step-1">
+        <section class="form-section">
+          <div class="form-header">
+            <span class="featured-tag">PASSO 1 DE 4</span>
+            <h2>Informações Básicas</h2>
+            <p>Conte para a comunidade o que é o seu jogo.</p>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="id_title">Título do jogo <span class="required">*</span></label>
+              <p class="field-hint">O nome completo do seu jogo como aparecerá na biblioteca.</p>
+              {{ form.title }}
+            </div>
+
+            <div class="form-group full-width">
+              <label for="id_short_description">Descrição curta <span class="required">*</span></label>
+              <p class="field-hint">Um resumo em até 200 caracteres para aparecer nos cards da biblioteca.</p>
+              {{ form.short_description }}
+            </div>
+
+            <div class="form-group full-width">
+              <label for="id_description">Descrição completa <span class="required">*</span></label>
+              <p class="field-hint">Descreva a história, mecânicas, objetivos e qualquer coisa que o jogador precise saber. Seja detalhado!</p>
+              {{ form.description }}
+            </div>
+
+            <div class="form-group full-width">
+              <label for="id_instructions">Como jogar <span class="required">*</span></label>
+              <p class="field-hint">Liste os controles, comandos do teclado e instruções de instalação/execução.</p>
+              {{ form.instructions }}
+            </div>
+
+            <div class="form-group">
+              <label for="id_developer">Desenvolvedor <span class="required">*</span></label>
+              <p class="field-hint">Seu nome ou nome do estúdio.</p>
+              {{ form.developer }}
+            </div>
+
+            <div class="form-group">
+              <label for="id_genre">Gênero <span class="required">*</span></label>
+              <p class="field-hint">Escolha o gênero que melhor representa seu jogo.</p>
+              {{ form.genre }}
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <span></span>
+            <button type="button" class="btn btn-primary next-btn" data-next="2">Próximo →</button>
+          </div>
+        </section>
+      </div>
+
+      <div class="form-page" id="step-2">
+        <section class="form-section">
+          <div class="form-header">
+            <span class="featured-tag">PASSO 2 DE 4</span>
+            <h2>Detalhes Técnicos</h2>
+            <p>Informações sobre o ambiente de desenvolvimento e compatibilidade.</p>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="id_platform">Plataforma <span class="required">*</span></label>
+              <p class="field-hint">Ex: Windows, Linux, macOS, Windows/Linux</p>
+              {{ form.platform }}
+            </div>
+
+            <div class="form-group">
+              <label for="id_python_version">Versão do Python <span class="required">*</span></label>
+              <p class="field-hint">Ex: 3.10, 3.11, 3.12</p>
+              {{ form.python_version }}
+            </div>
+
+            <div class="form-group">
+              <label for="id_pygame_version">Versão do Pygame <span class="required">*</span></label>
+              <p class="field-hint">Ex: 2.1.0, 2.5.2</p>
+              {{ form.pygame_version }}
+            </div>
+
+            <div class="form-group">
+              <label for="id_featured">Em destaque?</label>
+              <p class="field-hint">Deixe "sim" se quiser que seu jogo apareça em destaque.</p>
+              {{ form.featured }}
+            </div>
+
+            <div class="form-group">
+              <label for="id_download_count">Contagem de downloads</label>
+              <p class="field-hint">Deixe 0 se for um novo upload.</p>
+              {{ form.download_count }}
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary prev-btn" data-prev="1">← Voltar</button>
+            <button type="button" class="btn btn-primary next-btn" data-next="3">Próximo →</button>
+          </div>
+        </section>
+      </div>
+
+      <div class="form-page" id="step-3">
+        <section class="form-section">
+          <div class="form-header">
+            <span class="featured-tag">PASSO 3 DE 4</span>
+            <h2>Mídia</h2>
+            <p>Imagens atraentes aumentam muito o interesse pelo jogo.</p>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="id_thumbnail">Thumbnail / Capa</label>
+              <p class="field-hint">Imagem principal do jogo. Recomendado: 630×500px. Formatos: PNG, JPG, GIF.</p>
+              <div class="upload-area">
+                {{ form.thumbnail }}
+              </div>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="id_screenshots">Screenshot</label>
+              <p class="field-hint">Uma imagem de gameplay. Mostre o jogo em ação! Formatos: PNG, JPG, GIF.</p>
+              <div class="upload-area">
+                {{ form.screenshots }}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary prev-btn" data-prev="2">← Voltar</button>
+            <button type="button" class="btn btn-primary next-btn" data-next="4">Próximo →</button>
+          </div>
+        </section>
+      </div>
+
+      <div class="form-page" id="step-4">
+        <section class="form-section">
+          <div class="form-header">
+            <span class="featured-tag">PASSO 4 DE 4</span>
+            <h2>Links & Download</h2>
+            <p>Disponibilize o jogo e o código-fonte para a comunidade.</p>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="id_download_file">Arquivo do jogo</label>
+              <p class="field-hint">Faça upload do .zip ou .exe do seu jogo diretamente. Máximo recomendado: 50MB.</p>
+              <div class="upload-area">
+                {{ form.download_file }}
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="id_download_url">URL de download externo</label>
+              <p class="field-hint">Link alternativo caso o jogo esteja hospedado em outro lugar (Google Drive, GitHub Releases, etc).</p>
+              {{ form.download_url }}
+            </div>
+
+            <div class="form-group">
+              <label for="id_source_code_url">URL do código-fonte</label>
+              <p class="field-hint">Link para o repositório GitHub, GitLab ou similar.</p>
+              {{ form.source_code_url }}
+            </div>
+          </div>
+
+          <div class="review-box">
+            <h3>✅ Tudo pronto?</h3>
+            <p>Revise suas informações antes de publicar. Após enviar, o jogo aparecerá imediatamente na biblioteca.</p>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary prev-btn" data-prev="3">← Voltar</button>
+            <button type="submit" class="btn btn-primary">🚀 Publicar Jogo</button>
+          </div>
+        </section>
+      </div>
+
     </form>
-    <p class="footer-link"><a href="/">Voltar para a página inicial</a></p>
-  </div>
+  </main>
+
+  <script>
+    const nextBtns = document.querySelectorAll('.next-btn');
+    const prevBtns = document.querySelectorAll('.prev-btn');
+    const steps = document.querySelectorAll('.step');
+
+    function goTo(n) {
+      document.querySelectorAll('.form-page').forEach(p => p.classList.remove('active'));
+      document.getElementById('step-' + n).classList.add('active');
+      steps.forEach(s => {
+        s.classList.remove('active', 'done');
+        if (parseInt(s.dataset.step) < n) s.classList.add('done');
+        if (parseInt(s.dataset.step) === n) s.classList.add('active');
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    nextBtns.forEach(btn => btn.addEventListener('click', () => goTo(parseInt(btn.dataset.next))));
+    prevBtns.forEach(btn => btn.addEventListener('click', () => goTo(parseInt(btn.dataset.prev))));
+  </script>
 </body>
 </html>

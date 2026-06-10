@@ -9,7 +9,8 @@ import os
 import uuid
 
 def index(request):
-    return render(request, 'index.html')
+    featured_games = Game.objects.filter(featured='sim')
+    return render(request, 'index.html', {'featured_games': featured_games})
 
 def game_page(request):
     jogos = Game.objects.all()
