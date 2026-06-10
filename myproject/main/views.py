@@ -9,25 +9,25 @@ import os
 import uuid
 
 def index(request):
-    games = Game.objects.all()
-    return render(request, 'index.html', {'games': games})
+    return render(request, 'index.html')
 
 def game_page(request):
     jogos = Game.objects.all()
     pesquisa = ''
-    valida_lis = []
     if request.method == 'POST':
-        pesquisa = request.POST.get('q')
-        
+        pesquisa = request.POST.get('q', '')
+        valida_lis = []
         for i in jogos:
             if pesquisa.lower() in i.title.lower():
                 valida_lis.append(i)
-                
         for i in jogos:
             if SequenceMatcher(None, pesquisa.lower(), i.title.lower()).ratio() > 0.5 and i not in valida_lis:
                 valida_lis.append(i)
-    
-    return render(request, 'game.html', {'games': valida_lis}) 
+        games = valida_lis
+    else:
+        games = list(jogos)
+
+    return render(request, 'game.html', {'games': games, 'query': pesquisa})
 
 def add_game(request):
     if request.method == 'POST':

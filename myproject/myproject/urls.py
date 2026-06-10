@@ -9,7 +9,6 @@ urlpatterns = [
     path('', index, name='index'),
     path('game/', game_page, name='game'),
     path('game/add/', add_game, name='add_game'),
-    # 'search' page removed — searches are handled on the game page (POST)
 ]
 
 if settings.DEBUG:

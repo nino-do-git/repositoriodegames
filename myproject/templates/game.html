@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Detalhes do jogo</title>
+  <title>Biblioteca</title>
   {% load static %}
   <link rel="stylesheet" href="{% static 'main/css/index.css' %}">
   <link rel="stylesheet" href="{% static 'main/css/game.css' %}">
@@ -30,47 +30,46 @@
     </div>
   </header>
 
-  <div class="container">
-    <h1>Game</h1>
+  <main class="home">
+    <section class="games-section">
+      <div class="section-header">
+        <h2>Biblioteca</h2>
+        <p>Lista rápida dos jogos cadastrados.</p>
+      </div>
 
-    {% for game in games %}
-      <section class="game-section">
-        <h2>{{ game.title }}</h2>
-        <p>Gênero: {{ game.genre }}</p>
-        <p>Plataforma: {{ game.platform }}</p>
+      <div class="games-grid">
+        {% for game in games %}
+          <article class="game-card">
+            {% if game.thumbnail %}
+              <div class="game-thumb">
+                <img src="{{ game.thumbnail.url }}" alt="{{ game.title }}">
+              </div>
+            {% else %}
+              <div class="game-thumb-placeholder">NO IMAGE</div>
+            {% endif %}
 
-        {% if game.thumbnail %}
-          <div class="game-images">
-            <div>
-              <p>Thumbnail:</p>
-              <img src="{{ game.thumbnail.url }}" alt="Thumbnail de {{ game.title }}" />
+            <div class="game-card-body">
+              <div class="game-card-top">
+                <span class="game-status">ONLINE</span>
+              </div>
+              <h3>{{ game.title }}</h3>
+              <p class="game-meta">{{ game.platform }}</p>
+              <div class="card-links">
+                <a href="/game/">Abrir</a>
+              </div>
             </div>
+          </article>
+        {% empty %}
+          <div class="empty-state">
+            <h3>Nenhum jogo cadastrado</h3>
+            <p>Seu hub ainda está vazio.</p>
+            <a href="/game/add/" class="btn btn-primary">Adicionar jogo</a>
           </div>
-        {% endif %}
+        {% endfor %}
+      </div>
+    </section>
+  </main>
 
-        {% if game.screenshots %}
-          <div class="game-images">
-            <div>
-              <p>Screenshots:</p>
-              <img src="{{ game.screenshots.url }}" alt="Screenshot de {{ game.title }}" />
-            </div>
-          </div>
-        {% endif %}
-
-        {% if game.download_file %}
-          <div>
-            <p><a href="{{ game.download_file.url }}" download>Baixar arquivo do jogo</a></p>
-          </div>
-        {% endif %}
-      </section>
-    {% empty %}
-      <p>Nenhuma anotação por enquanto.</p>
-    {% endfor %}
-
-    <p class="footer-link"><a href="/">Voltar para a página inicial</a></p>
-  </div>
-
-  <!-- Modal de Imagem -->
   <div id="imageModal" class="image-modal">
     <div class="image-modal-content">
       <button class="image-modal-close">&times;</button>
