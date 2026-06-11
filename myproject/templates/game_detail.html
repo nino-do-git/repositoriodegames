@@ -51,6 +51,12 @@
         {% if game.source_code_url %}
           <a href="{{ game.source_code_url }}" target="_blank" rel="noopener" class="btn btn-secondary">Ver código-fonte</a>
         {% endif %}
+        {% if game.featured != 'sim' %}
+          <button type="button" class="btn btn-featured" id="openPayModal">⭐ Destacar jogo</button>
+        {% else %}
+          <span class="badge-featured-active">⭐ Em Destaque</span>
+        {% endif %}
+        <button type="button" class="btn btn-danger" id="openDeleteModal">Apagar jogo</button>
       </div>
     </div>
   </div>
@@ -175,6 +181,68 @@
 
   </main>
 
+  <!-- Modal de pagamento para destaque -->
+  <div id="payModal" class="delete-modal" role="dialog" aria-modal="true">
+    <div class="delete-modal-box pay-modal-box">
+      <h3 class="delete-modal-title">⭐ Destacar jogo</h3>
+      <p class="delete-modal-msg">Seu jogo ficará em destaque na página inicial por 30 dias.</p>
+
+      <div class="pay-price">R$ 9,90</div>
+
+      <div class="pay-methods">
+        <label class="pay-method">
+          <input type="radio" name="pay_method" value="pix" checked>
+          <span class="pay-method-card">
+            <span class="pay-method-icon">🟢</span>
+            <span>Pix</span>
+          </span>
+        </label>
+        <label class="pay-method">
+          <input type="radio" name="pay_method" value="cartao">
+          <span class="pay-method-card">
+            <span class="pay-method-icon">💳</span>
+            <span>Cartão</span>
+          </span>
+        </label>
+        <label class="pay-method">
+          <input type="radio" name="pay_method" value="boleto">
+          <span class="pay-method-card">
+            <span class="pay-method-icon">📄</span>
+            <span>Boleto</span>
+          </span>
+        </label>
+      </div>
+
+      <div id="payDetails" class="pay-details">
+        <p class="pay-detail-text">Chave Pix: <strong>pagamentos@gamerepository.com</strong></p>
+        <p class="pay-detail-hint">Após o pagamento, clique em confirmar.</p>
+      </div>
+
+      <div class="delete-modal-actions">
+        <button id="payCancelBtn" class="btn btn-secondary">Cancelar</button>
+        <form method="post" action="/game/{{ game.slug }}/feature/" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-featured-confirm">Confirmar pagamento</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmação de exclusão -->
+  <div id="deleteModal" class="delete-modal" role="dialog" aria-modal="true">
+    <div class="delete-modal-box">
+      <h3 class="delete-modal-title">Apagar jogo</h3>
+      <p class="delete-modal-msg">Tem certeza que deseja apagar <strong>{{ game.title }}</strong>? Esta ação não pode ser desfeita.</p>
+      <div class="delete-modal-actions">
+        <button id="deleteCancelBtn" class="btn btn-secondary">Cancelar</button>
+        <form method="post" action="/game/{{ game.slug }}/delete/" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Apagar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal de imagem (reutiliza game-modal.js existente) -->
   <div id="imageModal" class="image-modal">
     <div class="image-modal-content">
@@ -200,6 +268,33 @@
     }, { rootMargin: '-30% 0px -60% 0px' });
 
     sections.forEach(s => observer.observe(s));
+
+    // Modal de pagamento
+    const payModal = document.getElementById('payModal');
+    const openPayBtn = document.getElementById('openPayModal');
+    if (openPayBtn) {
+      openPayBtn.addEventListener('click', () => payModal.classList.add('active'));
+    }
+    document.getElementById('payCancelBtn').addEventListener('click', () => payModal.classList.remove('active'));
+    payModal.addEventListener('click', e => { if (e.target === payModal) payModal.classList.remove('active'); });
+
+    const payDetails = document.getElementById('payDetails');
+    const payDetailTexts = {
+      pix:    '<p class="pay-detail-text">Chave Pix: <strong>pagamentos@gamerepository.com</strong></p><p class="pay-detail-hint">Após transferir, clique em confirmar.</p>',
+      cartao: '<p class="pay-detail-text">Número: <strong>0000 0000 0000 0000</strong></p><p class="pay-detail-hint">Ambiente de testes — nenhum débito real será feito.</p>',
+      boleto: '<p class="pay-detail-text">Código: <strong>1234.5678 9012.3456 7890.1234 5 00010000000990</strong></p><p class="pay-detail-hint">Vencimento em 1 dia útil.</p>',
+    };
+    document.querySelectorAll('input[name="pay_method"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        payDetails.innerHTML = payDetailTexts[radio.value];
+      });
+    });
+
+    // Modal de exclusão
+    const deleteModal = document.getElementById('deleteModal');
+    document.getElementById('openDeleteModal').addEventListener('click', () => deleteModal.classList.add('active'));
+    document.getElementById('deleteCancelBtn').addEventListener('click', () => deleteModal.classList.remove('active'));
+    deleteModal.addEventListener('click', e => { if (e.target === deleteModal) deleteModal.classList.remove('active'); });
 
     // Smooth scroll para âncoras (incluindo os botões do hero)
     document.querySelectorAll('a[href^="#"]').forEach(a => {

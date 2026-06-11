@@ -51,6 +51,23 @@ def game_detail(request, slug):
     return render(request, 'game_detail.html', {'game': game})
 
 
+def feature_game(request, slug):
+    game = get_object_or_404(Game, slug=slug)
+    if request.method == 'POST':
+        game.featured = 'sim'
+        game.save()
+        return redirect('game_detail', slug=slug)
+    return redirect('game_detail', slug=slug)
+
+
+def delete_game(request, slug):
+    game = get_object_or_404(Game, slug=slug)
+    if request.method == 'POST':
+        game.delete()
+        return redirect('game')
+    return redirect('game_detail', slug=slug)
+
+
 def add_game(request):
     if request.method == 'POST':
         form = GameForm(request.POST, request.FILES)

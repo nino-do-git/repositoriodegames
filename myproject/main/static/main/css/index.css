@@ -124,6 +124,200 @@ body {
   transform: translateY(-2px);
 }
 
+.btn-danger {
+  background: transparent;
+  color: #f87171;
+  border: 1px solid #f87171;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.btn-danger:hover {
+  background: rgba(248, 113, 113, 0.12);
+  transform: translateY(-2px);
+}
+
+/* ── Botão e badge de destaque ──────────────────────────────────────── */
+.btn-featured {
+  background: linear-gradient(135deg, #f59e0b, #f97316);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: bold;
+}
+
+.btn-featured:hover {
+  opacity: 0.88;
+  transform: translateY(-2px);
+}
+
+.btn-featured-confirm {
+  background: linear-gradient(135deg, #f59e0b, #f97316);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: bold;
+  display: inline-block;
+  padding: 13px 22px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: 0.25s ease;
+}
+
+.btn-featured-confirm:hover {
+  opacity: 0.88;
+  transform: translateY(-2px);
+}
+
+.badge-featured-active {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #f59e0b;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+/* ── Modal de pagamento ─────────────────────────────────────────────── */
+.pay-modal-box {
+  max-width: 480px;
+}
+
+.pay-price {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #f59e0b;
+  text-align: center;
+  margin: 8px 0 20px;
+}
+
+.pay-methods {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.pay-method {
+  flex: 1;
+  cursor: pointer;
+}
+
+.pay-method input[type="radio"] {
+  display: none;
+}
+
+.pay-method-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 8px;
+  border-radius: 12px;
+  border: 1px solid rgba(71, 85, 105, 0.55);
+  background: #1e293b;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: border-color 0.18s, background 0.18s, color 0.18s;
+}
+
+.pay-method-icon {
+  font-size: 1.4rem;
+}
+
+.pay-method input[type="radio"]:checked + .pay-method-card {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.pay-details {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+
+.pay-detail-text {
+  margin: 0 0 6px;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.pay-detail-hint {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.featured-confirmed {
+  color: #4ade80;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* ── Modal de confirmação de exclusão ───────────────────────────────── */
+.delete-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(6, 8, 22, 0.75);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-modal.active {
+  display: flex;
+}
+
+.delete-modal-box {
+  background: #0f172a;
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  border-radius: 16px;
+  padding: 32px 28px;
+  max-width: 420px;
+  width: calc(100% - 40px);
+  box-shadow: 0 0 40px rgba(248, 113, 113, 0.15);
+  animation: modalIn 0.18s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.delete-modal-title {
+  margin: 0 0 12px;
+  font-size: 1.15rem;
+  color: #f87171;
+}
+
+.delete-modal-msg {
+  margin: 0 0 24px;
+  color: #94a3b8;
+  line-height: 1.55;
+}
+
+.delete-modal-msg strong {
+  color: #e2e8f0;
+}
+
+.delete-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
 .featured,
 .games-section {
   background: rgba(15, 23, 42, 0.82);

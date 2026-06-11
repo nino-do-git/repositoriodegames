@@ -130,9 +130,12 @@
             </div>
 
             <div class="form-group">
-              <label for="id_featured">Em destaque?</label>
-              <p class="field-hint">Deixe "sim" se quiser que seu jogo apareça em destaque.</p>
-              {{ form.featured }}
+              <label>Destaque na página inicial</label>
+              <p class="field-hint">Pague R$ 9,90 para seu jogo aparecer em destaque por 30 dias.</p>
+              <input type="hidden" name="featured" id="featuredInput" value="">
+              <div id="featuredStatus" class="featured-status-idle">
+                <button type="button" class="btn btn-featured" id="openPayModalCreate">⭐ Destacar jogo — R$ 9,90</button>
+              </div>
             </div>
 
           </div>
@@ -222,6 +225,37 @@
     </form>
   </main>
 
+  <!-- Modal de pagamento para destaque (criação) -->
+  <div id="payModalCreate" class="delete-modal" role="dialog" aria-modal="true">
+    <div class="delete-modal-box pay-modal-box">
+      <h3 class="delete-modal-title">⭐ Destacar jogo</h3>
+      <p class="delete-modal-msg">Seu jogo ficará em destaque na página inicial por 30 dias após a publicação.</p>
+      <div class="pay-price">R$ 9,90</div>
+      <div class="pay-methods">
+        <label class="pay-method">
+          <input type="radio" name="pay_method_create" value="pix" checked>
+          <span class="pay-method-card"><span class="pay-method-icon">🟢</span><span>Pix</span></span>
+        </label>
+        <label class="pay-method">
+          <input type="radio" name="pay_method_create" value="cartao">
+          <span class="pay-method-card"><span class="pay-method-icon">💳</span><span>Cartão</span></span>
+        </label>
+        <label class="pay-method">
+          <input type="radio" name="pay_method_create" value="boleto">
+          <span class="pay-method-card"><span class="pay-method-icon">📄</span><span>Boleto</span></span>
+        </label>
+      </div>
+      <div id="payDetailsCreate" class="pay-details">
+        <p class="pay-detail-text">Chave Pix: <strong>pagamentos@gamerepository.com</strong></p>
+        <p class="pay-detail-hint">Após o pagamento, clique em confirmar.</p>
+      </div>
+      <div class="delete-modal-actions">
+        <button id="payCancelCreate" class="btn btn-secondary">Cancelar</button>
+        <button id="payConfirmCreate" class="btn btn-featured-confirm">Confirmar pagamento</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const nextBtns = document.querySelectorAll('.next-btn');
     const prevBtns = document.querySelectorAll('.prev-btn');
@@ -240,6 +274,29 @@
 
     nextBtns.forEach(btn => btn.addEventListener('click', () => goTo(parseInt(btn.dataset.next))));
     prevBtns.forEach(btn => btn.addEventListener('click', () => goTo(parseInt(btn.dataset.prev))));
+
+    // Modal de pagamento (criação)
+    const payModalCreate = document.getElementById('payModalCreate');
+    document.getElementById('openPayModalCreate').addEventListener('click', () => payModalCreate.classList.add('active'));
+    document.getElementById('payCancelCreate').addEventListener('click', () => payModalCreate.classList.remove('active'));
+    payModalCreate.addEventListener('click', e => { if (e.target === payModalCreate) payModalCreate.classList.remove('active'); });
+
+    const payDetailTextsCreate = {
+      pix:    '<p class="pay-detail-text">Chave Pix: <strong>pagamentos@gamerepository.com</strong></p><p class="pay-detail-hint">Após transferir, clique em confirmar.</p>',
+      cartao: '<p class="pay-detail-text">Número: <strong>0000 0000 0000 0000</strong></p><p class="pay-detail-hint">Ambiente de testes — nenhum débito real será feito.</p>',
+      boleto: '<p class="pay-detail-text">Código: <strong>1234.5678 9012.3456 7890.1234 5 00010000000990</strong></p><p class="pay-detail-hint">Vencimento em 1 dia útil.</p>',
+    };
+    document.querySelectorAll('input[name="pay_method_create"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        document.getElementById('payDetailsCreate').innerHTML = payDetailTextsCreate[radio.value];
+      });
+    });
+
+    document.getElementById('payConfirmCreate').addEventListener('click', () => {
+      document.getElementById('featuredInput').value = 'sim';
+      document.getElementById('featuredStatus').innerHTML = '<span class="featured-confirmed">✅ Destaque ativado! Será aplicado após a publicação.</span>';
+      payModalCreate.classList.remove('active');
+    });
   </script>
 </body>
 </html>
