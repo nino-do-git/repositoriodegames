@@ -2,13 +2,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from main.views import add_game, game_page, index
+from main.views import add_game, game_detail, game_page, index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
     path('game/', game_page, name='game'),
     path('game/add/', add_game, name='add_game'),
+    path('game/<slug:slug>/', game_detail, name='game_detail'),
 ]
 
 if settings.DEBUG:

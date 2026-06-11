@@ -1,5 +1,5 @@
 from datetime import datetime
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.text import slugify
 from .forms import GameForm
 from .models import Game
@@ -45,6 +45,11 @@ def game_page(request):
         'categorias': categorias_display,
         'categoria_ativa': categoria_ativa,
     })
+
+def game_detail(request, slug):
+    game = get_object_or_404(Game, slug=slug)
+    return render(request, 'game_detail.html', {'game': game})
+
 
 def add_game(request):
     if request.method == 'POST':
