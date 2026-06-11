@@ -21,7 +21,6 @@ class GameForm(forms.ModelForm):
             'source_code_url',
             'instructions',
             'featured',
-            'download_count',
         ]
         widgets = {
             'description': forms.Textarea(attrs={'rows': 4, 'cols': 40}),

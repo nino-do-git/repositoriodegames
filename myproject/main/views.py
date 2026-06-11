@@ -15,6 +15,14 @@ def index(request):
 def game_page(request):
     jogos = Game.objects.all()
     pesquisa = ''
+
+    # Lê a categoria ativa da querystring (?categoria=roguelike)
+    categoria_ativa = request.GET.get('categoria', '')
+
+    # Filtra o queryset pela categoria antes de aplicar a busca
+    if categoria_ativa:
+        jogos = jogos.filter(genre__iexact=categoria_ativa)
+
     if request.method == 'POST':
         pesquisa = request.POST.get('q', '')
         valida_lis = []
@@ -28,7 +36,15 @@ def game_page(request):
     else:
         games = list(jogos)
 
-    return render(request, 'game.html', {'games': games, 'query': pesquisa})
+    # Prepara lista de (slug, label) para o template renderizar os botões
+    categorias_display = [(c, c.replace('_', ' ').title()) for c in categorias]
+
+    return render(request, 'game.html', {
+        'games': games,
+        'query': pesquisa,
+        'categorias': categorias_display,
+        'categoria_ativa': categoria_ativa,
+    })
 
 def add_game(request):
     if request.method == 'POST':
@@ -36,6 +52,7 @@ def add_game(request):
         if form.is_valid():
             game = form.save(commit=False)
             game.slug = slugify(game.title)
+            game.download_count = '0'
             now = datetime.now()
             game.created_at = now
             game.updated_at = now
