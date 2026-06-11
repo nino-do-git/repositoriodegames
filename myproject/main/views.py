@@ -16,10 +16,8 @@ def game_page(request):
     jogos = Game.objects.all()
     pesquisa = ''
 
-    # Lê a categoria ativa da querystring (?categoria=roguelike)
     categoria_ativa = request.GET.get('categoria', '')
 
-    # Filtra o queryset pela categoria antes de aplicar a busca
     if categoria_ativa:
         jogos = jogos.filter(genre__iexact=categoria_ativa)
 
@@ -36,7 +34,6 @@ def game_page(request):
     else:
         games = list(jogos)
 
-    # Prepara lista de (slug, label) para o template renderizar os botões
     categorias_display = [(c, c.replace('_', ' ').title()) for c in categorias]
 
     return render(request, 'game.html', {

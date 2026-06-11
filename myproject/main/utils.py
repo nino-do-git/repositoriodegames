@@ -51,7 +51,6 @@ categorias = [
 ]
 
 def ensure_sample_games():
-    """Cria alguns jogos de exemplo caso o banco esteja vazio."""
     from datetime import datetime
     from django.utils.text import slugify
     from .models import Game

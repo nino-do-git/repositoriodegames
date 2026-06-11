@@ -22,7 +22,6 @@
         <a href="/game/add/">Adicionar jogo</a>
       </nav>
 
-      <!-- A categoria ativa é passada via querystring para que a busca mantenha o filtro -->
       <form action="/game/{% if categoria_ativa %}?categoria={{ categoria_ativa }}{% endif %}" method="post" style="display:flex; align-items:center; gap:8px; margin-left:12px;">
         {% csrf_token %}
         <input type="text" name="q" placeholder="Buscar jogos..." value="{{ query }}" aria-label="Buscar jogos" style="padding:8px 10px; border-radius:6px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.03); color:#fff;">
@@ -38,9 +37,7 @@
         <p>Lista rápida dos jogos cadastrados.</p>
       </div>
 
-      <!-- Barra de categorias com scroll horizontal em telas pequenas -->
       <nav class="category-bar" aria-label="Filtrar por categoria">
-        <!-- Botão "Tudo": remove o filtro voltando para /game/ -->
         <a href="/game/" class="category-btn {% if not categoria_ativa %}active{% endif %}">Tudo</a>
 
         {% for slug, label in categorias %}
