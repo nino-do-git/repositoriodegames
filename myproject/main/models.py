@@ -32,6 +32,6 @@ class Game(models.Model):
     source_code_url = models.URLField(max_length=200, blank=True)
     instructions = models.TextField(blank=True)
     featured = models.CharField(max_length=200, blank=True, default='')
-    download_count = models.CharField(max_length=200, blank=True, default='0')
+    download_count = models.IntegerField(default=0)
     created_at = models.DateTimeField(max_length=200)
     updated_at = models.DateTimeField(max_length=200)

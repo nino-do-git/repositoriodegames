@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.text import slugify
+from django.db.models import F
 from .forms import GameForm
 from .models import Game
 from difflib import SequenceMatcher
@@ -65,13 +66,41 @@ def delete_game(request, slug):
     return redirect('game_detail', slug=slug)
 
 
+def download_game(request, slug):
+    game = get_object_or_404(Game, slug=slug)
+    source = request.GET.get('source', 'file')
+
+    Game.objects.filter(pk=game.pk).update(download_count=F('download_count') + 1)
+
+    if source == 'url' and game.download_url:
+        return redirect(game.download_url)
+    if game.download_file:
+        return redirect(game.download_file.url)
+    return redirect('game_detail', slug=slug)
+
+
+def edit_game(request, slug):
+    game = get_object_or_404(Game, slug=slug)
+    if request.method == 'POST':
+        form = GameForm(request.POST, request.FILES, instance=game)
+        if form.is_valid():
+            game = form.save(commit=False)
+            game.slug = slugify(game.title)
+            game.updated_at = datetime.now()
+            game.save()
+            return redirect('game_detail', slug=game.slug)
+    else:
+        form = GameForm(instance=game)
+    return render(request, 'create_game.html', {'form': form, 'editing': True, 'game': game})
+
+
 def add_game(request):
     if request.method == 'POST':
         form = GameForm(request.POST, request.FILES)
         if form.is_valid():
             game = form.save(commit=False)
             game.slug = slugify(game.title)
-            game.download_count = '0'
+            game.download_count = 0
             now = datetime.now()
             game.created_at = now
             game.updated_at = now

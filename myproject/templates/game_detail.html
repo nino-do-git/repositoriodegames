@@ -14,11 +14,11 @@
 
   <header class="site-header">
     <div class="header-container">
-      <a href="/" class="logo">Game Repository</a>
+      <a href="/home/" class="logo">Game Repository</a>
       <nav class="nav-menu">
-        <a href="/">Início</a>
-        <a href="/game/">Biblioteca</a>
-        <a href="/game/add/">Adicionar jogo</a>
+        <a href="/home/">Início</a>
+        <a href="/biblioteca/">Biblioteca</a>
+        <a href="/adicionarjogo/">Adicionar jogo</a>
       </nav>
     </div>
   </header>
@@ -30,7 +30,7 @@
   {% endif %}
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <a href="/game/" class="back-link">← Biblioteca</a>
+      <a href="/biblioteca/" class="back-link">← Biblioteca</a>
 
       <div class="hero-badges">
         <span class="badge-online">ONLINE</span>
@@ -55,6 +55,7 @@
         {% else %}
           <span class="badge-featured-active">⭐ Em Destaque</span>
         {% endif %}
+        <a href="/biblioteca/{{ game.slug }}/edit/" class="btn btn-secondary">Editar jogo</a>
         <button type="button" class="btn btn-danger" id="openDeleteModal">Apagar jogo</button>
       </div>
     </div>
@@ -109,7 +110,7 @@
 
         <div class="download-main">
           {% if game.download_file %}
-            <a href="{{ game.download_file.url }}" class="dl-btn dl-direct" download>
+            <a href="/biblioteca/{{ game.slug }}/download/?source=file" class="dl-btn dl-direct">
               <span class="dl-icon">↓</span>
               <span class="dl-text">
                 <strong>Baixar arquivo</strong>
@@ -119,7 +120,7 @@
           {% endif %}
 
           {% if game.download_url %}
-            <a href="{{ game.download_url }}" class="dl-btn dl-external" target="_blank" rel="noopener">
+            <a href="/biblioteca/{{ game.slug }}/download/?source=url" class="dl-btn dl-external">
               <span class="dl-icon">↗</span>
               <span class="dl-text">
                 <strong>Link externo</strong>
@@ -158,12 +159,10 @@
               <dt>Pygame</dt>
               <dd>{{ game.pygame_version }}</dd>
             </div>
-            {% if game.download_count %}
             <div class="info-row">
               <dt>Downloads</dt>
               <dd>{{ game.download_count }}</dd>
             </div>
-            {% endif %}
           </dl>
         </div>
 
@@ -210,7 +209,7 @@
 
       <div class="delete-modal-actions">
         <button id="payCancelBtn" class="btn btn-secondary">Cancelar</button>
-        <form method="post" action="/game/{{ game.slug }}/feature/" style="display:inline;">
+        <form method="post" action="/biblioteca/{{ game.slug }}/feature/" style="display:inline;">
           {% csrf_token %}
           <button type="submit" class="btn btn-featured-confirm">Confirmar pagamento</button>
         </form>
@@ -224,7 +223,7 @@
       <p class="delete-modal-msg">Tem certeza que deseja apagar <strong>{{ game.title }}</strong>? Esta ação não pode ser desfeita.</p>
       <div class="delete-modal-actions">
         <button id="deleteCancelBtn" class="btn btn-secondary">Cancelar</button>
-        <form method="post" action="/game/{{ game.slug }}/delete/" style="display:inline;">
+        <form method="post" action="/biblioteca/{{ game.slug }}/delete/" style="display:inline;">
           {% csrf_token %}
           <button type="submit" class="btn btn-danger">Apagar</button>
         </form>

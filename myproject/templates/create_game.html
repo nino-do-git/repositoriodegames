@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Adicionar Jogo</title>
+  <title>{% if editing %}Editar {{ game.title }}{% else %}Adicionar Jogo{% endif %}</title>
   {% load static %}
   <link rel="stylesheet" href="{% static 'main/css/index.css' %}">
   <link rel="stylesheet" href="{% static 'main/css/create_game.css' %}">
@@ -14,17 +14,17 @@
 
   <header class="site-header">
     <div class="header-container">
-      <a href="/" class="logo">Game Repository</a>
+      <a href="/home/" class="logo">Game Repository</a>
       <nav class="nav-menu">
-        <a href="/">Início</a>
-        <a href="/game/">Biblioteca</a>
-        <a href="/game/add/">Adicionar jogo</a>
+        <a href="/home/">Início</a>
+        <a href="/biblioteca/">Biblioteca</a>
+        <a href="/adicionarjogo/">Adicionar jogo</a>
       </nav>
     </div>
   </header>
 
   <main class="home">
-    <form method="post" enctype="multipart/form-data" id="gameForm">
+    <form method="post" enctype="multipart/form-data" id="gameForm" {% if editing %}action="/biblioteca/{{ game.slug }}/edit/"{% endif %}>
       {% csrf_token %}
 
       <div class="steps-bar">
@@ -53,8 +53,8 @@
         <section class="form-section">
           <div class="form-header">
             <span class="featured-tag">PASSO 1 DE 4</span>
-            <h2>Informações Básicas</h2>
-            <p>Conte para a comunidade o que é o seu jogo.</p>
+            <h2>{% if editing %}Editar: {{ game.title }}{% else %}Informações Básicas{% endif %}</h2>
+            <p>{% if editing %}Altere os campos que deseja atualizar.{% else %}Conte para a comunidade o que é o seu jogo.{% endif %}</p>
           </div>
 
           <div class="form-grid">
@@ -217,7 +217,7 @@
 
           <div class="form-actions">
             <button type="button" class="btn btn-secondary prev-btn" data-prev="3">← Voltar</button>
-            <button type="submit" class="btn btn-primary">🚀 Publicar Jogo</button>
+            <button type="submit" class="btn btn-primary">{% if editing %}Salvar alterações{% else %}🚀 Publicar Jogo{% endif %}</button>
           </div>
         </section>
       </div>
