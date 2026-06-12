@@ -7,10 +7,12 @@ Uma plataforma completa para armazenar, exibir e divulgar jogos digitais desenvo
 ## ✨ Funcionalidades
 
 - Vitrine de Jogos com destaque  
-- Página de detalhes com screenshots e download  
-- Busca por nome ou gênero  
-- Submissão de jogos com upload de arquivos  
+- Página de detalhes com screenshots, instruções e download  
+- Filtro de jogos por categoria/gênero  
+- Submissão de jogos com upload de arquivos e thumbnail  
+- Link para código-fonte e versões de Python/Pygame do jogo  
 - Contador de downloads  
+- Exclusão de jogos diretamente pela interface  
 - Painel administrativo com Django Admin  
 - Interface moderna estilo dark  
 
@@ -20,16 +22,29 @@ Uma plataforma completa para armazenar, exibir e divulgar jogos digitais desenvo
 
 REPOSITORIODEGAMES/
 
-.venv/
+venv/
 
 myproject/
   main/
     migrations/
-    models.py
-    views.py
+    static/
+      main/
+        css/
+          index.css
+          game.css
+          game_detail.css
+          create_game.css
+        icons/
+          favicon.svg
+        js/
+          game-modal.js
     admin.py
     apps.py
+    forms.py
+    models.py
     urls.py
+    utils.py
+    views.py
 
   myproject/
     settings.py
@@ -38,12 +53,31 @@ myproject/
     wsgi.py
 
   templates/
-  static/
-  media/
+    index.html
+    game.html
+    game_detail.html
+    create_game.html
 
-db.sqlite3  
-manage.py  
-requirements.txt  
+  media/
+    downloads/
+    imagens/
+    thumbnails/
+
+  db.sqlite3
+  manage.py
+
+requirements.txt
+README.md
+
+---
+
+## 🔗 Rotas
+
+/             → Lista de jogos (biblioteca)  
+/add/         → Adicionar novo jogo  
+/<slug>/      → Detalhes do jogo  
+/<slug>/delete/   → Excluir jogo  
+/<slug>/download/ → Download do arquivo do jogo  
 
 ---
 
@@ -94,15 +128,17 @@ http://127.0.0.1:8000/admin
 
 Explorar Jogos:
 - Veja jogos na página inicial
-- Use filtros para buscar
+- Use os botões de categoria para filtrar
 
 Detalhes:
 - Clique em um jogo
-- Veja descrição e download
+- Veja descrição, instruções, screenshots e faça download
 
 Submissão:
-- Envie título, descrição e arquivos
-- Gerencie via admin
+- Acesse /add/ para cadastrar um jogo
+- Informe título, descrição, desenvolvedor, gênero, plataforma
+- Faça upload de thumbnail, screenshots e arquivo de download
+- Gerencie via admin em /admin/
 
 ---
 
@@ -110,19 +146,21 @@ Submissão:
 
 Backend:
 - Python 3.10+
-- Django 4+
+- Django 5.2
 - SQLite
 
 Frontend:
 - Django Templates
-- HTML/CSS
+- HTML/CSS (por página)
+- JavaScript (modal de imagens)
 
 ---
 
 ## 📂 Uploads
 
 /media/
-  games/
+  downloads/
+  imagens/
   thumbnails/
 
 Configuração no settings.py:
